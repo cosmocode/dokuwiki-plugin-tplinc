@@ -1,0 +1,12 @@
+As pattern you can use the following:
+
+  * For a single page just specify its full page id
+  * For namespaces excluding subnamespaces use ''%%namespace:*%%''
+  * For namespaces including subnamespaces use ''%%namespace:**%%''
+  * Regular Expressions can be used starting and ending with ''/'' - they are matched against a '':'' prefixed full page id
+
+Pages can optionally be given as relative IDs and will be resolved against the current page's namespace. When matching
+regular expressions, matched groups can be reused in the inserted page name by referencing them as ''$0'', ''$1'', ..., ''$n''.
+
+By default only pages that the current user has read access for are included. You can use the **Skip ACL** option to
+always include pages.

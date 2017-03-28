@@ -1,0 +1,5 @@
+====== Template Includes ======
+
+Here you can define which **page** should be included at which **location** in the template when a **pattern**
+matches the current page ID. When multiple pattern match, all pages will be inserted in the order they are defined
+here. You can change the order by drag'n'drop.
