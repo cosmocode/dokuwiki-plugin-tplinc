@@ -1,3 +1,3 @@
 jQuery(function () {
-    jQuery('#plugin__tplinc').find('tbody').sortable();
+    jQuery('#plugin__tplinc').find('tbody').sortable({axis: "y"});
 });

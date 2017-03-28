@@ -116,6 +116,22 @@ class helper_plugin_tplinc extends DokuWiki_Plugin {
     }
 
     /**
+     * Get the locations supported by the template
+     *
+     * The template needs to implement the apropriate event hook
+     *
+     * @return array
+     */
+    public function getLocations() {
+        $data = array('' => $this->getLang('unknown'));
+        $event = new Doku_Event('PLUGIN_TPLINC_LOCATIONS_SET', $data);
+        $event->advise_before(false);
+        $event->advise_after();
+
+        return $data;
+    }
+
+    /**
      * Check if the given pattern matches the given page id
      *
      * @param string $pattern the pattern to check against

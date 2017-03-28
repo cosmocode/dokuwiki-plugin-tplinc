@@ -16,6 +16,8 @@ $lang['skipacl'] = 'Skip ACL';
 $lang['save'] = 'Save';
 $lang['saved'] = 'Data has been saved';
 
+$lang['unknown'] = '[Unknown Location]';
+
 
 
 //Setup VIM: ex: et ts=4 :

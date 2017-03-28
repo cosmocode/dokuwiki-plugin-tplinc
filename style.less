@@ -1,5 +1,9 @@
 #plugin__tplinc {
 
+    td {
+        white-space: nowrap;
+    }
+
     td.drag {
         padding: 0;
         vertical-align: middle;
@@ -9,9 +13,10 @@
             width: 2em;
             height: 2em;
             fill: @ini_text;
+            cursor: ns-resize;
         }
     }
     .ui-sortable-helper {
-        cursor: move;
+        cursor: ns-resize;
     }
 }

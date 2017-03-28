@@ -67,35 +67,19 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
         echo '</thead>';
 
         echo '<tbody>';
-
         // existing assignments
         $assignments = $this->helper->loadAssignments();
         $row = 0;
         foreach($assignments as $assignment) {
-            list($pattern, $page, $location, $skipacl) = $assignment;
-            echo '<tr>';
-            echo '<td><input type="text" name="a[x' . $row . '][0]" value="' . hsc($pattern) . '" /></td>';
-            echo '<td><input type="text" name="a[x' . $row . '][1]" value="' . hsc($page) . '" /></td>';
-            echo '<td><input type="text" name="a[x' . $row . '][2]" value="' . hsc($location) . '" /></td>'; #fixme make dropdown
-            $checked = $skipacl ? 'checked="checked"' : '';
-            echo '<td><input type="checkbox" name="a[x' . $row . '][3]" value="1" '.$checked.'/></td>';
-            echo '<td class="drag">' . inlineSVG(__DIR__ . '/drag.svg') . '</td>';
-            echo '</tr>';
+            $this->assignmentRow($assignment, $row);
             $row++;
         }
 
         // three more rows for new ones
         for($i = 0; $i < 3; $i++) {
-            echo '<tr>';
-            echo '<td><input type="text" name="a[x' . $row . '][0]" value="" /></td>';
-            echo '<td><input type="text" name="a[x' . $row . '][1]" value="" /></td>';
-            echo '<td><input type="text" name="a[x' . $row . '][2]" value="" /></td>'; #fixme make dropdown
-            echo '<td><input type="checkbox" name="a[x' . $row . '][3]" value="1" /></td>';
-            echo '<td class="drag">' . inlineSVG(__DIR__ . '/drag.svg') . '</td>';
-            echo '</tr>';
+            $this->assignmentRow(array('', '', '', ''), $row);
             $row++;
         }
-
         echo '<tbody>';
 
         // save button
@@ -111,6 +95,54 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
 
         echo $this->locale_xhtml('help');
 
+    }
+
+    /**
+     * One row in the table
+     *
+     * @param array $assignment
+     * @param int $row the row counter
+     */
+    protected function assignmentRow($assignment, $row) {
+        list($pattern, $page, $location, $skipacl) = $assignment;
+        echo '<tr>';
+        echo '<td><input type="text" name="a[x' . $row . '][0]" value="' . hsc($pattern) . '" /></td>';
+        echo '<td><input type="text" name="a[x' . $row . '][1]" value="' . hsc($page) . '" /></td>';
+        echo '<td>';
+        $this->locationBox('a[x' . $row . '][2]', $location);
+
+        echo '<td>';
+        $checked = $skipacl ? 'checked="checked"' : '';
+        echo '<label>';
+        echo '<input type="checkbox" name="a[x' . $row . '][3]" value="1" ' . $checked . '/> ';
+        echo $this->getLang('skipacl');
+        echo '</label>';
+        echo '</td>';
+
+        echo '<td class="drag">' . inlineSVG(__DIR__ . '/drag.svg') . '</td>';
+        echo '</tr>';
+    }
+
+    /**
+     * Create a dropdown for the locations
+     *
+     * @param string $name the parameter name
+     * @param string $loc the current location value
+     */
+    protected function locationBox($name, $loc) {
+        $locations = null;
+        if($locations === null) $locations = $this->helper->getLocations();
+
+        if(!isset($locations[$loc])) $loc = '';
+
+        echo '<select name="' . $name . '">';
+        foreach($locations as $location => $label) {
+            $selected = ($location == $loc) ? 'selected="selected"' : '';
+            echo '<option value="' . hsc($location) . '" ' . $selected . '>';
+            echo hsc($label);
+            echo '</option>';
+        }
+        echo '</select>';
     }
 }
 
