@@ -126,6 +126,7 @@ class helper_plugin_tplinc extends DokuWiki_Plugin {
         $data = array('' => $this->getLang('unknown'));
         $event = new Doku_Event('PLUGIN_TPLINC_LOCATIONS_SET', $data);
         $event->advise_before(false);
+        asort($data);
         $event->advise_after();
 
         return $data;
