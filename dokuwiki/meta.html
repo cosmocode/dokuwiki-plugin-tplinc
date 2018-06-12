@@ -1,0 +1,26 @@
+<?php
+/* tplinc plugin setup */
+class TplDokuWikiDefaultIncludeHandler {
+    public function __construct() {
+        /** @var \Doku_Event_Handler */
+        global $EVENT_HANDLER;
+        $EVENT_HANDLER->register_hook('PLUGIN_TPLINC_LOCATIONS_SET', 'BEFORE', $this, 'registerIncludes');
+
+        $this->hlp = plugin_load('helper', 'tplinc');
+    }
+
+    public function registerIncludes(\Doku_Event $event) {
+        $event->data['meta.html'] = 'Inside the HTML <head>, use this to add additional styles or metaheaders';
+        $event->data['sidebarheader.html'] = 'At the top of the sidebar (if any)';
+        $event->data['sidebarfooter.html'] = 'At the bottom of the sidebar (if any)';
+        $event->data['pageheader.html'] = 'At the top inside the content box, above the actual content';
+        $event->data['pagefooter.html'] = 'At the bottom inside the content box, below the actual content';
+        $event->data['header.html'] = 'At the top of the page, above the logo and wiki title';
+        $event->data['footer.html'] = 'At the very end of the page after all other page content';
+    }
+}
+$tplinc = new TplDokuWikiDefaultIncludeHandler();
+
+/* tplinc output */
+$tplinc = plugin_load('helper', 'tplinc');
+if($tplinc) echo $tplinc->renderIncludes(basename(__FILE__));

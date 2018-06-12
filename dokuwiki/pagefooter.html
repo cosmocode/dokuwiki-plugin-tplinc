@@ -1,0 +1,4 @@
+<?php
+/* tplinc output */
+$tplinc = plugin_load('helper', 'tplinc');
+if($tplinc) echo $tplinc->renderIncludes(basename(__FILE__));
