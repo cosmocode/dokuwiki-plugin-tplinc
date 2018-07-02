@@ -1,7 +1,7 @@
 base   tplinc
 author Andreas Gohr
 email  dokuwiki@cosmocode.de
-date   2018-06-12
+date   2018-07-02
 name   tplinc plugin
 desc   Provide advanced include mechanisms for templates
 url    https://www.dokuwiki.org/plugin:tplinc
