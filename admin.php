@@ -48,7 +48,7 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
         global $ID;
         echo $this->locale_xhtml('intro');
 
-        echo '<form action="' . wl($ID) . '" action="post" id="plugin__tplinc" method="POST">';
+        echo '<form action="' . wl($ID) . '" id="plugin__tplinc" method="POST">';
         echo '<input type="hidden" name="do" value="admin" />';
         echo '<input type="hidden" name="page" value="tplinc" />';
         echo '<input type="hidden" name="sectok" value="' . getSecurityToken() . '" />';
