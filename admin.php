@@ -1,15 +1,13 @@
 <?php
+
 /**
  * DokuWiki Plugin tplinc (Admin Component)
  *
  * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
  * @author  Andreas Gohr <dokuwiki@cosmocode.de>
  */
-
-// must be run within Dokuwiki
-if(!defined('DOKU_INC')) die();
-
-class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
+class admin_plugin_tplinc extends DokuWiki_Admin_Plugin
+{
 
     /** @var helper_plugin_tplinc */
     protected $helper;
@@ -17,25 +15,28 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
     /**
      * admin_plugin_tplinc constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->helper = plugin_load('helper', 'tplinc');
     }
 
     /**
      * @return bool true if only access for superuser, false is for superusers and moderators
      */
-    public function forAdminOnly() {
+    public function forAdminOnly()
+    {
         return true;
     }
 
     /**
      * Should carry out any processing required by the plugin.
      */
-    public function handle() {
+    public function handle()
+    {
         global $INPUT;
 
-        if($INPUT->str('action') == 'save' && checkSecurityToken()) {
-            if($this->helper->saveAssignments($INPUT->arr('a'))) {
+        if ($INPUT->str('action') == 'save' && checkSecurityToken()) {
+            if ($this->helper->saveAssignments($INPUT->arr('a'))) {
                 msg($this->getLang('saved'), 1);
             }
         }
@@ -44,7 +45,8 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
     /**
      * Render HTML output, e.g. helpful text and a form
      */
-    public function html() {
+    public function html()
+    {
         global $ID;
         echo $this->locale_xhtml('intro');
 
@@ -70,13 +72,13 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
         // existing assignments
         $assignments = $this->helper->loadAssignments();
         $row = 0;
-        foreach($assignments as $assignment) {
+        foreach ($assignments as $assignment) {
             $this->assignmentRow($assignment, $row);
             $row++;
         }
 
         // three more rows for new ones
-        for($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $this->assignmentRow(array('', '', '', ''), $row);
             $row++;
         }
@@ -103,7 +105,8 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
      * @param array $assignment
      * @param int $row the row counter
      */
-    protected function assignmentRow($assignment, $row) {
+    protected function assignmentRow($assignment, $row)
+    {
         list($pattern, $page, $location, $skipacl) = $assignment;
         echo '<tr>';
         echo '<td><input type="text" name="a[x' . $row . '][0]" value="' . hsc($pattern) . '" /></td>';
@@ -129,14 +132,15 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
      * @param string $name the parameter name
      * @param string $loc the current location value
      */
-    protected function locationBox($name, $loc) {
+    protected function locationBox($name, $loc)
+    {
         $locations = null;
-        if($locations === null) $locations = $this->helper->getLocations();
+        if ($locations === null) $locations = $this->helper->getLocations();
 
-        if(!isset($locations[$loc])) $loc = '';
+        if (!isset($locations[$loc])) $loc = '';
 
         echo '<select name="' . $name . '">';
-        foreach($locations as $location => $label) {
+        foreach ($locations as $location => $label) {
             $selected = ($location == $loc) ? 'selected="selected"' : '';
             echo '<option value="' . hsc($location) . '" ' . $selected . '>';
             echo hsc($label);
@@ -145,5 +149,3 @@ class admin_plugin_tplinc extends DokuWiki_Admin_Plugin {
         echo '</select>';
     }
 }
-
-// vim:ts=4:sw=4:et:
